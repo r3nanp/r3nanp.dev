@@ -34,11 +34,11 @@ const ITEMS = [
     href: "/",
     text: "Home",
   },
-  {
-    key: "2",
-    href: "/blog",
-    text: "Blog",
-  },
+  // {
+  //   key: "2",
+  //   href: "/blog",
+  //   text: "Blog",
+  // },
 ];
 
 export const Header = () => {
