@@ -25,5 +25,5 @@ module.exports = {
       sans: ['Poppins', ...fontFamily.sans]
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
