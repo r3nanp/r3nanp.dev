@@ -1,27 +1,8 @@
-import { initTRPC } from '@trpc/server';
-import * as trpcNext from '@trpc/server/adapters/next';
-import { z } from 'zod';
+import { createNextApiHandler } from '@trpc/server/adapters/next';
 
-export const t = initTRPC.create();
+import { appRouter } from 'server/router';
 
-export const appRouter = t.router({
-  hello: t.procedure
-    .input(
-      z
-        .object({
-          text: z.string().nullish(),
-        })
-        .nullish(),
-    )
-    .query(({ input }) => ({
-      greeting: `hello ${input?.text ?? 'world'}`,
-    })),
-});
-// export type definition of API
-export type AppRouter = typeof appRouter;
-// export API handler
-
-export default trpcNext.createNextApiHandler({
+export default createNextApiHandler({
   router: appRouter,
   createContext: () => ({}),
 });
