@@ -56,7 +56,7 @@ export const Header = () => {
 
   return (
     <header className="flex items-center justify-between p-8">
-      <nav className="relative mx-auto hidden w-full max-w-2xl items-center justify-between border-gray-700 bg-gray-900 bg-opacity-60 pt-8 pb-8 text-gray-100 sm:pb-16 lg:flex">
+      <nav className="relative mx-auto hidden w-full max-w-2xl items-center justify-between border-gray-700 bg-gray-900 bg-opacity-60 pt-8 pb-8 text-gray-100 sm:pb-8 lg:flex">
         <div className="ml-[-0.60rem]">
           {ITEMS.map(item => (
             <NavItem {...item} key={item.key} isActive={isActive(item)} />
