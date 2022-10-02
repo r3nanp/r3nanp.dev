@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import seo from 'next-seo.config';
+import { trpc } from 'utils/trpc';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,4 +18,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default trpc.withTRPC(MyApp);
