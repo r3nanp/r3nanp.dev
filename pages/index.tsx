@@ -129,7 +129,7 @@ const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinn
         </p>
 
         <div className="grid auto-cols-max grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3">
-          {pinnedRepos.map(project => (
+          {pinnedRepos?.map(project => (
             <ProjectCard key={project.repo} url={`https://github.com/${project.owner}/${project.repo}`} {...project} />
           ))}
         </div>
