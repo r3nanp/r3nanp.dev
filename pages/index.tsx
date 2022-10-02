@@ -4,8 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Header } from 'components/Header';
-
 type Repository = {
   fork: boolean;
   stargazers_count: number;
@@ -25,7 +23,7 @@ export const getStaticProps: GetStaticProps = async () => {
   // credit: Lee Robinson https://github.com/leerob/leerob.io/blob/main/pages/api/github.ts
 
   const repos: Repository[] = await (await fetch('https://api.github.com/users/r3nanp/repos?per_page=100')).json();
-  const mine = repos.filter((repo) => !repo.fork);
+  const mine = repos.filter(repo => !repo.fork);
 
   const starCount = mine.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 
@@ -90,7 +88,6 @@ const ProjectCard: FC<{
 
 const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinnedRepos, starCount }) => (
   <>
-    <Header />
     <main className="flex flex-col justify-center bg-gray-900 px-8">
       <div className="mx-auto flex max-w-2xl flex-col items-start justify-center border-gray-200 pb-16">
         <div className="flex flex-col-reverse items-start sm:flex-row">
@@ -132,7 +129,7 @@ const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinn
         </p>
 
         <div className="grid auto-cols-max grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3">
-          {pinnedRepos.map((project) => (
+          {pinnedRepos.map(project => (
             <ProjectCard key={project.repo} url={`https://github.com/${project.owner}/${project.repo}`} {...project} />
           ))}
         </div>
