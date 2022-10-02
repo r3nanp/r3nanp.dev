@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+export FORCE_COLOR=1
+
+exec < /dev/tty && node_modules/.bin/cz --hook || true
