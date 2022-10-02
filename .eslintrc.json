@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"],
+  "extends": ["next/core-web-vitals", "prettier", "airbnb-base"],
   "rules": {
     "import/order": [
       "error",
@@ -13,6 +13,7 @@
     ],
     "import/extensions": "off",
     "import/prefer-default-export": "off",
+    "max-len": "off",
     "react/jsx-sort-props": [
       "error",
       {
