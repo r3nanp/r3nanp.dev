@@ -11,9 +11,10 @@
         "newlines-between": "always"
       }
     ],
+    "arrow-parens": "off",
+    "max-len": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "max-len": "off",
     "react/jsx-sort-props": [
       "error",
       {
