@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 function NavItem({
   href,
@@ -17,9 +17,9 @@ function NavItem({
       <a
         className={clsx(
           isActive
-            ? "font-semibold text-gray-200"
-            : "font-normal text-gray-400",
-          "hidden rounded-lg p-1 transition-all hover:bg-gray-800 sm:px-3 sm:py-2 md:inline-block"
+            ? 'font-semibold text-gray-200'
+            : 'font-normal text-gray-400',
+          'hidden rounded-lg p-1 transition-all hover:bg-gray-800 sm:px-3 sm:py-2 md:inline-block',
         )}
       >
         <span className="capitalize">{text}</span>
@@ -30,15 +30,15 @@ function NavItem({
 
 const ITEMS = [
   {
-    key: "1",
-    href: "/",
-    text: "Home",
+    key: '1',
+    href: '/',
+    text: 'Home',
   },
-  // {
-  //   key: "2",
-  //   href: "/blog",
-  //   text: "Blog",
-  // },
+  {
+    key: '2',
+    href: '/blog',
+    text: 'Blog',
+  },
 ];
 
 export const Header = () => {
@@ -51,14 +51,14 @@ export const Header = () => {
   const isActive = (navItem: typeof ITEMS[0]) => router.asPath === navItem.href;
 
   useEffect(() => {
-    router.events.on("routeChangeStart", closeMenu);
-    router.events.on("routeChangeComplete", closeMenu);
-    router.events.on("routeChangeError", closeMenu);
+    router.events.on('routeChangeStart', closeMenu);
+    router.events.on('routeChangeComplete', closeMenu);
+    router.events.on('routeChangeError', closeMenu);
 
     return () => {
-      router.events.off("routeChangeStart", closeMenu);
-      router.events.off("routeChangeComplete", closeMenu);
-      router.events.off("routeChangeError", closeMenu);
+      router.events.off('routeChangeStart', closeMenu);
+      router.events.off('routeChangeComplete', closeMenu);
+      router.events.off('routeChangeError', closeMenu);
     };
   }, [router.events]);
 
