@@ -17,6 +17,11 @@
     "@portabletext/react": "^1.0.6",
     "@sanity/image-url": "^1.0.1",
     "@sanity/vision": "^3.0.0-dev-preview.15",
+    "@tanstack/react-query": "^4.8.0",
+    "@trpc/client": "^10.0.0-proxy-beta.13",
+    "@trpc/next": "^10.0.0-proxy-beta.13",
+    "@trpc/react": "^10.0.0-proxy-beta.13",
+    "@trpc/server": "^10.0.0-proxy-beta.13",
     "clsx": "^1.2.1",
     "next": "12.3.0",
     "next-sanity": "^0.8.4",
@@ -25,7 +30,8 @@
     "react-dom": "18.2.0",
     "sanity": "3.0.0-dev-preview.15",
     "sanity-plugin-markdown": "^3.0.0-v3-studio.1",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.7",
