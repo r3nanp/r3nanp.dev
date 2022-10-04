@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const ACCESS_TOKEN = process.env.SPOTIFY_ACCESS_TOKEN ?? '';
+const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN ?? '';
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+
+const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
 const NOW_PLAYING_ENDPOINT = 'https://api.spotify.com/v1/me/player/currently-playing'; // https://developer.spotify.com/console/get-users-currently-playing-track
+const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
 
 export const config = {
   runtime: 'experimental-edge',
@@ -22,11 +27,33 @@ type SongType = {
   };
 };
 
+const getAccessToken = async () => {
+  const response = await fetch(TOKEN_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${basic}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: REFRESH_TOKEN,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('An error occurred while fetching the access token.');
+  }
+
+  return response.json();
+};
+
 export const getNowPlaying = async () => {
+  const { access_token: accessToken } = await getAccessToken();
+
   const response = await fetch(NOW_PLAYING_ENDPOINT, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -71,11 +98,5 @@ export default async function handler(request: NextApiRequest, response: NextApi
     songUrl: song.item.external_urls.spotify,
   };
 
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
-    },
-  });
+  return response.status(200).json({ data });
 }
