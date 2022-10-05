@@ -1,9 +1,13 @@
+import { HandThumbUpIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import Image from 'next/future/image';
-import { FC, ReactNode, useEffect } from 'react';
+import {
+  FC, ReactNode, useEffect, useState,
+} from 'react';
 import readingTime from 'reading-time';
 
 import { getAllSlugs, getPost } from 'lib/queries';
@@ -66,14 +70,46 @@ const ViewCounter = ({ slug }: { slug: string }) => {
     });
   }, [mutate, slug]);
 
-  if (!data) return null;
+  return <span>{`${data && data?.view > 0 ? Number(data?.view).toLocaleString() : '–––'} views`}</span>;
+};
 
-  return <span>{`${data?.count > 0 ? data?.count.toLocaleString() : '–––'} views`}</span>;
+const LikeCounter = ({ slug }: { slug: string }) => {
+  const [liked, setLiked] = useState(false);
+
+  const utils = trpc.useContext();
+
+  const { mutate, data } = trpc.blog.addLike.useMutation({
+    onSuccess(input) {
+      utils.blog.getView.invalidate({
+        slug: input.slug,
+      });
+    },
+  });
+
+  const handleLike = async () => {
+    setLiked(true);
+
+    mutate({ slug });
+
+    setTimeout(() => setLiked(false), 2000);
+  };
+
+  return (
+    <div className="absolute right-0 bottom-0 z-10">
+      <button
+        className="flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-white p-2 text-sm transition-all hover:opacity-75"
+        onClick={handleLike}
+      >
+        <HandThumbUpIcon className={clsx('h-6 w-6', liked ? 'fill-black' : 'fill-transparent')} />{' '}
+        <span>{`${data && data?.count > 0 ? Number(data?.count).toString() : '0'}`}</span>
+      </button>
+    </div>
+  );
 };
 
 const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children }) => (
   <main className="flex flex-col justify-center bg-gray-900 px-8">
-    <article className="mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
+    <article className="relative mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
       <h1 className="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">{post?.title}</h1>
       <div className="mt-2 flex w-full flex-col items-start justify-between md:flex-row md:items-center">
         <Image
@@ -94,6 +130,8 @@ const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children })
           {' • '}
           <ViewCounter slug={post.slug} />
         </p>
+
+        <LikeCounter slug={post.slug} />
       </div>
 
       <div className="prose mt-4 w-full max-w-none text-white">{children}</div>

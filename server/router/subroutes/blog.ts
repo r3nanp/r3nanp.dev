@@ -16,7 +16,7 @@ export const blogRouter = t.router({
           slug: input.slug,
         },
         update: {
-          count: {
+          view: {
             increment: 1,
           },
         },
@@ -24,6 +24,7 @@ export const blogRouter = t.router({
 
       return newOrUpdatedViews;
     }),
+
   getView: t.procedure
     .input(
       z.object({
@@ -49,4 +50,26 @@ export const blogRouter = t.router({
 
     return totalViews;
   }),
+
+  addLike: t.procedure
+    .input(
+      z.object({
+        slug: z.string().max(128),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const likes = await ctx.prisma.blog.upsert({
+        where: { slug: input.slug },
+        create: {
+          slug: input.slug,
+        },
+        update: {
+          count: {
+            increment: 1,
+          },
+        },
+      });
+
+      return likes;
+    }),
 });
