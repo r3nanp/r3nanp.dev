@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-import NowPlaying from './NowPlaying';
-
 const LINKS = [
   {
     href: '/',
@@ -21,7 +19,7 @@ export function Footer() {
   return (
     <footer className="mx-auto mb-8 flex w-full max-w-2xl flex-col items-start justify-center">
       <hr className="border-1 mb-8 w-full border-gray-800" />
-      <NowPlaying />
+
       <div className="grid w-full max-w-2xl grid-cols-1 gap-4 pb-16 sm:grid-cols-3">
         <div className="flex flex-col space-y-4">
           {LINKS.map((link, idx) => (
