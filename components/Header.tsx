@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 
+import * as Kbar from 'components/Kbar';
+
 function NavItem({ href, text, isActive }: { href: string; text: string; isActive: boolean }) {
   return (
     <Link href={href}>
@@ -62,6 +64,7 @@ export const Header = () => {
             <NavItem {...item} key={item.key} isActive={isActive(item)} />
           ))}
         </div>
+        <Kbar.Trigger />
       </nav>
 
       <Menu aria-label="Menu" as="div" className="relative inline-block bg-transparent text-left text-white lg:hidden">
