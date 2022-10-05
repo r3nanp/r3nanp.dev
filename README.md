@@ -6,6 +6,10 @@
 ## Techs used 🛠
 - Next.js
 - Typescript
+- Prisma
+- tRPC
+- Sanity
+- MDX
 - Tailwind CSS
 
 ## Installation 👷‍♂️
