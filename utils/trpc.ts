@@ -1,5 +1,8 @@
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
+import { inferProcedureInput, inferProcedureOutput } from '@trpc/server';
+import { NextPageContext } from 'next';
+import superjson from 'superjson';
 
 import { AppRouter } from 'server/router';
 
@@ -17,9 +20,22 @@ function getBaseUrl() {
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
-export const trpc = createTRPCNext<AppRouter>({
+export interface SSRContext extends NextPageContext {
+  /**
+   * Set HTTP Status code
+   * @example
+   * const utils = trpc.useContext();
+   * if (utils.ssrContext) {
+   *   utils.ssrContext.status = 404;
+   * }
+   */
+  status?: number;
+}
+
+export const trpc = createTRPCNext<AppRouter, SSRContext>({
   config() {
     return {
+      transformer: superjson,
       links: [
         httpBatchLink({
           /**
@@ -38,5 +54,21 @@ export const trpc = createTRPCNext<AppRouter>({
   /**
    * @link https://trpc.io/docs/ssr
    * */
-  ssr: true,
+  ssr: false,
 });
+
+export type inferQueryOutput<
+  TRouteKey extends keyof AppRouter['_def']['queries']
+> = inferProcedureOutput<AppRouter['_def']['queries'][TRouteKey]>;
+
+export type inferQueryInput<
+  TRouteKey extends keyof AppRouter['_def']['queries']
+> = inferProcedureInput<AppRouter['_def']['queries'][TRouteKey]>;
+
+export type inferMutationOutput<
+  TRouteKey extends keyof AppRouter['_def']['mutations']
+> = inferProcedureOutput<AppRouter['_def']['mutations'][TRouteKey]>;
+
+export type inferMutationInput<
+  TRouteKey extends keyof AppRouter['_def']['mutations']
+> = inferProcedureInput<AppRouter['_def']['mutations'][TRouteKey]>;
