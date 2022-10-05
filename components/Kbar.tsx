@@ -1,5 +1,6 @@
-import { BookOpenIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { BookOpenIcon, HomeIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import clsx from 'clsx';
 import {
   useKBar,
   KBarProvider,
@@ -11,27 +12,31 @@ import {
   useMatches,
   KBarResults,
 } from 'kbar';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { ReactNode } from 'react';
 
 const isMac = typeof window !== 'undefined' ? navigator.userAgent.indexOf('Mac') !== -1 : false;
 
-export const Root = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
+const ACTIONS: Action[] = [
+  {
+    id: 'Home',
+    name: 'Home',
+    shortcut: ['h'],
+    icon: <HomeIcon className="h-8 w-8" />,
+    keywords: 'home',
+    perform: () => Router.push('/'),
+  },
+  {
+    id: 'blog',
+    name: 'Blog',
+    shortcut: ['b'],
+    icon: <BookOpenIcon className="h-8 w-8" />,
+    keywords: 'writing words',
+    perform: () => Router.push('/blog'),
+  },
+];
 
-  const ACTIONS: Action[] = [
-    {
-      id: 'blog',
-      name: 'Blog',
-      shortcut: ['b'],
-      icon: <BookOpenIcon className="h-8 w-8" />,
-      keywords: 'writing words',
-      perform: () => router.push('/blog'),
-    },
-  ];
-
-  return <KBarProvider actions={ACTIONS}>{children}</KBarProvider>;
-};
+export const Root = ({ children }: { children: ReactNode }) => <KBarProvider actions={ACTIONS}>{children}</KBarProvider>;
 
 const Results = () => {
   const { results } = useMatches();
@@ -43,11 +48,10 @@ const Results = () => {
           <div className="bg-white p-4 text-xs uppercase text-gray-500">{item}</div>
       ) : (
           <div
-            className="flex w-full items-center justify-between space-x-3 px-4 py-2.5 text-sm hover:cursor-pointer"
-            style={{
-              background: active ? 'rgb(245,245,245)' : '#fff',
-              borderLeft: active ? '2px solid black' : '2px solid transparent',
-            }}
+            className={clsx(
+              'flex w-full items-center justify-between space-x-3 px-4 py-2.5 text-sm hover:cursor-pointer',
+              active ? 'border-l-2 border-black bg-gray-200/90' : 'border-l-2 border-transparent bg-white',
+            )}
           >
             <div>{item.icon}</div>
 
@@ -72,10 +76,12 @@ export const Content = () => (
   <KBarPortal>
     <KBarPositioner>
       <KBarAnimator className="w-full max-w-2xl rounded bg-white shadow-lg">
-        <KBarSearch
-          className="min-w-96 rounded-sm px-4 py-2.5 focus-visible:outline-none"
-          defaultPlaceholder="Type a command"
-        />
+        <div className="border-b border-gray-400">
+          <KBarSearch
+            className="min-w-96 rounded-sm px-4 py-2.5 focus-visible:outline-none"
+            defaultPlaceholder="Type a command"
+          />
+        </div>
 
         <Results />
       </KBarAnimator>
