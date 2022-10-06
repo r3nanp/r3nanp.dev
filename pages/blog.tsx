@@ -31,7 +31,7 @@ const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
         title="Blog - Renan Pereira"
       />
 
-      <main className="flex flex-col justify-center bg-gray-900 px-8">
+      <main className="flex flex-col justify-center px-8">
         <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center">
           <h1 className="mb-4 text-3xl font-bold tracking-tight text-white">Blog</h1>
           <p className="mb-4 text-gray-400">

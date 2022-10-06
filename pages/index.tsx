@@ -23,11 +23,18 @@ export const getStaticProps: GetStaticProps = async () => {
   // credit: Lee Robinson https://github.com/leerob/leerob.io/blob/main/pages/api/github.ts
 
   const repos: Repository[] = await (await fetch('https://api.github.com/users/r3nanp/repos?per_page=100')).json();
+
   const mine = repos.filter(repo => !repo.fork);
 
-  const starCount = mine.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+  const starCount = mine?.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 
   const pinnedRepos: PinnedRepo[] = await (await fetch('https://gh-pinned-repos.egoist.sh/?username=r3nanp')).json();
+
+  if (!pinnedRepos) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
@@ -50,7 +57,7 @@ const ProjectCard: FC<{
   url, repo, stars, forks, description, language, languageColor,
 }) => (
   <Link href={url} rel="noreferrer" target="_blank" passHref>
-    <div className="border-t-pink flex h-40 transform cursor-pointer flex-col place-content-evenly rounded-lg border-2 bg-[#1c1c1c] p-4 text-white transition-transform duration-300 hover:scale-[104%]">
+    <div className="flex h-40 transform cursor-pointer flex-col place-content-evenly rounded-lg border-2 bg-[#1c1c1c] p-4 text-white transition-transform duration-300 hover:scale-[104%]">
       <div className="flex flex-col gap-1">
         <p className="medium-text text-xl font-medium">{repo}</p>
         <p className="text-sm">{description}</p>

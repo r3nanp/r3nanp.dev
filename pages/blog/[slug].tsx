@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
+import { NextSeo } from 'next-seo';
 import Image from 'next/future/image';
 import {
   FC, ReactNode, useEffect, useState,
@@ -21,6 +22,12 @@ export const getStaticProps: GetStaticProps = async ({ preview = false, params }
   const post = await getClient(preview).fetch(getPost, {
     slug,
   });
+
+  if (!post) {
+    return {
+      notFound: true,
+    };
+  }
 
   const source = await serialize(post.content, {
     mdxOptions: {
@@ -127,7 +134,12 @@ const LikeCounter = ({ slug }: { slug: string }) => {
 };
 
 const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children }) => (
-  <main className="flex flex-col justify-center bg-gray-900 px-8">
+  <main className="flex flex-col justify-center px-8">
+    <NextSeo
+      description={post.slug}
+      title={post.slug}
+    />
+
     <article className="relative mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
       <h1 className="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">{post?.title}</h1>
       <div className="mt-2 flex w-full flex-col items-start justify-between md:flex-row md:items-center">
