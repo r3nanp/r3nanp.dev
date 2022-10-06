@@ -64,9 +64,9 @@ const Results = () => {
               active ? 'border-l-2 border-black bg-gray-200/90' : 'border-l-2 border-transparent bg-white',
             )}
           >
-            <div>{item.icon}</div>
+            <div className='text-gray-900'>{item.icon}</div>
 
-            <div className="flex w-full items-center justify-between">
+            <div className="flex w-full text-gray-900 items-center justify-between">
               <span>{item.name}</span>
               <span className="space-x-1">
                 {item.shortcut?.map(shortcut => (
