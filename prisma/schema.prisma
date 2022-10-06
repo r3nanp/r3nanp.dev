@@ -26,7 +26,7 @@ model Account {
   userId            String  @map("user_id")
   type              String
   provider          String
-  providerAccountId String
+  providerAccountId String  @map("provider_account_id")
   refresh_token     String? @db.VarChar(500)
   access_token      String? @db.VarChar(500)
   expires_at        Int?
@@ -54,10 +54,12 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
-  emailVerified DateTime?
+  emailVerified DateTime? @map("email_verified")
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  @@map("users")
 }
 
 model VerificationToken {
