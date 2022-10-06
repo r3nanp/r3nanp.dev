@@ -51,6 +51,22 @@ export const blogRouter = t.router({
     return totalViews;
   }),
 
+  getLike: t.procedure
+    .input(
+      z.object({
+        slug: z.string().max(128),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const views = await ctx.prisma.blog.findUnique({
+        where: {
+          slug: input.slug,
+        },
+      });
+
+      return views;
+    }),
+
   addLike: t.procedure
     .input(
       z.object({
