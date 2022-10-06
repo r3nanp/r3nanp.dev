@@ -70,7 +70,7 @@ const Guests = () => {
 
   if (sesh) {
     return (
-      <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center space-y-4">
+      <>
         {sesh.user?.image && (
           <div className="flex items-center gap-2">
             <Image
@@ -123,19 +123,12 @@ const Guests = () => {
             <Signature key={index} message={msg.message} name={msg.name} />
           ))}
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center space-y-4">
-      <h2 className="text-3xl font-bold text-gray-100 md:text-xl">Guestbook</h2>
-
-      <p className="pt-1 text-slate-200">
-        Leave a comment below. It could be anything – appreciation, information, a joke, a quote or even a cool face.
-        Surprise me!
-      </p>
-
+    <>
       <div className="flex items-center gap-4 rounded-md border-2 border-opacity-60 bg-[#202020] p-4">
         <button
           className="flex-none rounded-md border-2 px-3 py-2 text-sm text-white transition-colors duration-300 hover:bg-opacity-30 hover:text-white hover:opacity-75"
@@ -155,14 +148,22 @@ const Guests = () => {
           <Signature key={index} message={msg.message} name={msg.name} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
 const Guestbook: NextPage = () => (
   <main className="flex flex-col justify-center px-8">
     <NextSeo description="Sign my guestbook and cement your name on my website" title="Guestbook - Renan Pereira" />
-    <Guests />
+    <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center space-y-4">
+      <h2 className="text-3xl font-bold text-gray-100 md:text-xl">Guestbook</h2>
+
+      <p className="pt-1 text-slate-200">
+        Leave a comment below. It could be anything – appreciation, information, a joke, a quote or even a cool face.
+        Surprise me!
+      </p>
+      <Guests />
+    </div>
   </main>
 );
 
