@@ -68,3 +68,12 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_token")
 }
+
+model Guestbook {
+  id        String   @id @default(cuid())
+  name      String
+  message   String   @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("guestbook")
+}
