@@ -56,11 +56,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const ViewCounter = ({ slug }: { slug: string }) => {
-  const utils = trpc.useContext();
+  const context = trpc.useContext();
 
   const { mutate, data } = trpc.blog.addView.useMutation({
     onSuccess(input) {
-      utils.blog.getView.invalidate({ slug: input.slug });
+      context.blog.getView.cancel();
+
+      const optimisticUpdate = context.blog.getView.getData({
+        slug: input.slug,
+      });
+
+      context.blog.getView.setData(optimisticUpdate);
+    },
+    onSettled: () => {
+      context.blog.getView.invalidate();
     },
   });
 
@@ -76,13 +85,23 @@ const ViewCounter = ({ slug }: { slug: string }) => {
 const LikeCounter = ({ slug }: { slug: string }) => {
   const [liked, setLiked] = useState(false);
 
-  const utils = trpc.useContext();
+  const context = trpc.useContext();
+  const { data } = trpc.blog.getLike.useQuery({
+    slug,
+  });
 
-  const { mutate, data } = trpc.blog.addLike.useMutation({
+  const { mutate } = trpc.blog.addLike.useMutation({
     onSuccess(input) {
-      utils.blog.getView.invalidate({
+      context.blog.getLike.cancel();
+
+      const optimisticUpdate = context.blog.getLike.getData({
         slug: input.slug,
       });
+
+      context.blog.getLike.setData(optimisticUpdate);
+    },
+    onSettled: () => {
+      context.blog.getLike.invalidate();
     },
   });
 
@@ -100,8 +119,8 @@ const LikeCounter = ({ slug }: { slug: string }) => {
         className="flex cursor-pointer items-center justify-center gap-1 rounded-3xl bg-white p-2 text-sm transition-all hover:opacity-75"
         onClick={handleLike}
       >
-        <HandThumbUpIcon className={clsx('h-6 w-6', liked ? 'fill-black' : 'fill-transparent')} />{' '}
-        <span>{`${data && data?.count > 0 ? Number(data?.count).toString() : '0'}`}</span>
+        <HandThumbUpIcon className={clsx('h-6 w-6 text-black', liked ? 'fill-black' : 'fill-transparent')} />{' '}
+        <span className="text-black">{`${data && data?.count > 0 ? Number(data?.count).toString() : '0'}`}</span>
       </button>
     </div>
   );
@@ -121,7 +140,7 @@ const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children })
           width={24}
         />
 
-        <p className="ml-2 text-sm text-gray-300">
+        <p className="text-sm text-gray-300 lg:ml-2">
           {'Renan Pereira / '} {format(parseISO(post.date), 'MMMM dd, yyyy')}
         </p>
 

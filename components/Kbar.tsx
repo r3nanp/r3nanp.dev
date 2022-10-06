@@ -1,4 +1,6 @@
-import { BookOpenIcon, HomeIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import {
+  BookOpenIcon, HomeIcon, MagnifyingGlassIcon, PencilSquareIcon,
+} from '@heroicons/react/24/outline';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import clsx from 'clsx';
 import {
@@ -34,9 +36,18 @@ const ACTIONS: Action[] = [
     keywords: 'writing words',
     perform: () => Router.push('/blog'),
   },
+  {
+    id: 'guestbook',
+    name: 'Guestbook',
+    icon: <PencilSquareIcon className="h-8 w-8" />,
+    keywords: 'writing words',
+    perform: () => Router.push('/guestbook'),
+  },
 ];
 
-export const Root = ({ children }: { children: ReactNode }) => <KBarProvider actions={ACTIONS}>{children}</KBarProvider>;
+export const Root = ({ children }: { children: ReactNode }) => (
+  <KBarProvider actions={ACTIONS}>{children}</KBarProvider>
+);
 
 const Results = () => {
   const { results } = useMatches();

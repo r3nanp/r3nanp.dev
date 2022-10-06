@@ -33,6 +33,11 @@ const ITEMS = [
     href: '/blog',
     text: 'Blog',
   },
+  {
+    key: '3',
+    href: '/guestbook',
+    text: 'Guestbook',
+  },
 ];
 
 export const Header = () => {

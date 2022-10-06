@@ -29,6 +29,7 @@
     "date-fns": "^2.29.3",
     "kbar": "^0.1.0-beta.36",
     "next": "12.3.0",
+    "next-auth": "^4.12.3",
     "next-mdx-remote": "^4.1.0",
     "next-sanity": "^0.8.4",
     "next-seo": "^5.5.0",
