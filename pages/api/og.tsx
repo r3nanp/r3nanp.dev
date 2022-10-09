@@ -60,14 +60,14 @@ export default async function handler(req: NextApiRequest) {
       <body
         style={{
           color: '#FFF',
-          backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.2) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.2) 2%, transparent 0%)',
+          backgroundImage:
+            'radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.2) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.2) 2%, transparent 0%)',
           backgroundSize: '100px 100px',
           height: '100vh',
           background: '#424874',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-
         }}
       >
         <div
@@ -81,16 +81,18 @@ export default async function handler(req: NextApiRequest) {
             padding: '80px',
           }}
         >
-          <p
-            style={{
-              fontFamily: 'JetBrains Mono',
-              fontSize: '28px',
-              marginBottom: '25px',
-              color: '#c4c4c4',
-            }}
-          >
-            {top}
-          </p>
+          {top ? (
+            <p
+              style={{
+                fontFamily: 'JetBrains Mono',
+                fontSize: '28px',
+                marginBottom: '25px',
+                color: '#c4c4c4',
+              }}
+            >
+              {top}
+            </p>
+          ) : null}
 
           <h1 style={title!.length < 60 ? lg : md}>{title}</h1>
 
