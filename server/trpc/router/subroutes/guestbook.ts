@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { t } from 'server/trpc';
+import { authedProcedure, t } from 'server/trpc';
 
 export const guestbookRouter = t.router({
   getAll: t.procedure.query(async ({ ctx }) => {
@@ -17,7 +17,7 @@ export const guestbookRouter = t.router({
     return messages;
   }),
 
-  postMessage: t.procedure.input(
+  postMessage: authedProcedure.input(
     z.object({
       name: z.string(),
       message: z.string().max(100),
