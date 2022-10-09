@@ -1,8 +1,11 @@
 import { StarIcon } from '@heroicons/react/24/outline';
 import { GetStaticProps, NextPage } from 'next';
+import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
+
+import { DOMAIN_URL } from 'constants/variables';
 
 type Repository = {
   fork: boolean;
@@ -93,9 +96,22 @@ const ProjectCard: FC<{
   </Link>
 );
 
-const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinnedRepos, starCount }) => (
-  <>
+const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinnedRepos, starCount }) => {
+  const ogImage = `${DOMAIN_URL}/api/og?title=Renan Pereira`;
+
+  return (
     <main className="flex flex-col justify-center bg-gray-900 px-8">
+      <NextSeo
+        openGraph={{
+          images: [
+            {
+              url: ogImage,
+              alt: 'Renan Pereira',
+            },
+          ],
+        }}
+      />
+
       <div className="mx-auto flex max-w-2xl flex-col items-start justify-center border-gray-200 pb-16">
         <div className="flex flex-col-reverse items-start sm:flex-row">
           <div className="flex flex-col pr-8">
@@ -142,7 +158,7 @@ const Home: NextPage<{ pinnedRepos: PinnedRepo[]; starCount: number }> = ({ pinn
         </div>
       </div>
     </main>
-  </>
-);
+  );
+};
 
 export default Home;

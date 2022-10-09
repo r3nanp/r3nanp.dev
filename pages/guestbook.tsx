@@ -6,6 +6,7 @@ import Image from 'next/future/image';
 import { FC, useState } from 'react';
 
 import { Spinner } from 'components/Spinner';
+import { DOMAIN_URL } from 'constants/variables';
 import { trpc } from 'utils/trpc';
 
 const Signature: FC<{ name: string; message: string }> = ({ name, message }) => (
@@ -152,19 +153,33 @@ const Guests = () => {
   );
 };
 
-const Guestbook: NextPage = () => (
-  <main className="flex flex-col justify-center px-8">
-    <NextSeo description="Sign my guestbook and cement your name on my website" title="Guestbook - Renan Pereira" />
-    <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center space-y-4">
-      <h2 className="text-3xl font-bold text-gray-100 md:text-xl">Guestbook</h2>
+const Guestbook: NextPage = () => {
+  const ogImage = `${DOMAIN_URL}/api/og?title=Guestbook - Renan Pereira`;
 
-      <p className="pt-1 text-slate-200">
-        Leave a comment below. It could be anything – appreciation, information, a joke, a quote or even a cool face.
-        Surprise me!
-      </p>
-      <Guests />
-    </div>
-  </main>
-);
+  return (
+    <main className="flex flex-col justify-center px-8">
+      <NextSeo
+        description="Sign my guestbook and cement your name on my website"
+        openGraph={{
+          images: [
+            {
+              url: ogImage,
+            },
+          ],
+        }}
+        title="Guestbook - Renan Pereira"
+      />
+      <div className="mx-auto mb-16 flex max-w-2xl flex-col items-start justify-center space-y-4">
+        <h2 className="text-3xl font-bold text-gray-100 md:text-xl">Guestbook</h2>
+
+        <p className="pt-1 text-slate-200">
+          Leave a comment below. It could be anything – appreciation, information, a joke, a quote or even a cool face.
+          Surprise me!
+        </p>
+        <Guests />
+      </div>
+    </main>
+  );
+};
 
 export default Guestbook;
