@@ -4,7 +4,7 @@ import { inferProcedureInput, inferProcedureOutput } from '@trpc/server';
 import { NextPageContext } from 'next';
 import superjson from 'superjson';
 
-import { AppRouter } from 'server/router';
+import { AppRouter } from 'server/trpc/router';
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
