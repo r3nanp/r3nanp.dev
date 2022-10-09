@@ -2,7 +2,7 @@
 import { ImageResponse } from '@vercel/og';
 import { NextApiRequest } from 'next';
 
-const DOMAIN_URL = (process.env.NEXTAUTH_URL ?? '').replace(/\/$/, '');
+import { DOMAIN_URL } from 'constants/variables';
 
 const weight = {
   bold: 'Bold',
