@@ -1,4 +1,4 @@
-if (!process.env.NEXT_AUTH_SECRET) throw new Error('Please set NEXTAUTH_SECRET');
+if (!process.env.NEXTAUTH_SECRET) throw new Error('Please set NEXTAUTH_SECRET');
 
 if (!process.env.NEXTAUTH_URL) throw new Error('Please set NEXTAUTH_URL');
 
