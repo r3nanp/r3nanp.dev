@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "sanity:start": "sanity start",
     "typecheck": "tsc --noEmit",
-    "prisma": "dotenv -e .env.local -- prisma"
+    "prisma": "dotenv -e .env.local -- prisma",
+    "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.2",
