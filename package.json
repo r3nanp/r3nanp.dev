@@ -26,6 +26,7 @@
     "@trpc/next": "^10.0.0-proxy-beta.13",
     "@trpc/react": "^10.0.0-proxy-beta.13",
     "@trpc/server": "^10.0.0-proxy-beta.13",
+    "@vercel/og": "^0.0.14",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "kbar": "^0.1.0-beta.36",

@@ -11,6 +11,7 @@ import {
 } from 'react';
 import readingTime from 'reading-time';
 
+import { DOMAIN_URL } from 'constants/variables';
 import { getAllSlugs, getPost } from 'lib/queries';
 import { getClient, sanityClient } from 'lib/sanity-server';
 import { Post } from 'lib/types';
@@ -133,42 +134,57 @@ const LikeCounter = ({ slug }: { slug: string }) => {
   );
 };
 
-const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children }) => (
-  <main className="flex flex-col justify-center px-8">
-    <NextSeo
-      description={post.slug}
-      title={post.slug}
-    />
+const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children }) => {
+  const formattedDate = format(parseISO(post.date), 'MMMM dd, yyyy');
 
-    <article className="relative mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
-      <h1 className="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">{post?.title}</h1>
-      <div className="mt-2 flex w-full flex-col items-start justify-between md:flex-row md:items-center">
-        <Image
-          alt="Renan Pereira"
-          className="rounded-full"
-          height={24}
-          sizes="20vw"
-          src="https://avatars.githubusercontent.com/r3nanp"
-          width={24}
-        />
+  const ogImage = `${DOMAIN_URL}/api/og?title=${post.title}&top=${formattedDate} • ${post.readingTime}`;
 
-        <p className="text-sm text-gray-300 lg:ml-2">
-          {'Renan Pereira / '} {format(parseISO(post.date), 'MMMM dd, yyyy')}
-        </p>
+  return (
+    <main className="flex flex-col justify-center px-8">
+      <NextSeo
+        description={post.description}
+        openGraph={{
+          images: [
+            {
+              url: ogImage,
+              alt: post.title,
+            },
+          ],
+          url: ` ${DOMAIN_URL}/blog/${post.slug}`,
+        }}
+        title={`${post.title} - Renan Pereira`}
+      />
 
-        <p className="min-w-32 mt-2 text-sm text-gray-600 dark:text-gray-400 md:mt-0">
-          {post.readingTime}
-          {' • '}
-          <ViewCounter slug={post.slug} />
-        </p>
+      <article className="relative mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
+        <h1 className="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">{post?.title}</h1>
+        <div className="mt-2 flex w-full flex-col items-start justify-between md:flex-row md:items-center">
+          <Image
+            alt="Renan Pereira"
+            className="rounded-full"
+            height={24}
+            sizes="20vw"
+            src="https://avatars.githubusercontent.com/r3nanp"
+            width={24}
+          />
 
-        <LikeCounter slug={post.slug} />
-      </div>
+          <p className="text-sm text-gray-300 lg:ml-2">
+            {'Renan Pereira / '} {format(parseISO(post.date), 'MMMM dd, yyyy')}
+          </p>
 
-      <div className="prose mt-4 w-full max-w-none text-white">{children}</div>
-    </article>
-  </main>
-);
+          <p className="min-w-32 mt-2 text-sm text-gray-600 dark:text-gray-400 md:mt-0">
+            {post.readingTime}
+            {' • '}
+            <ViewCounter slug={post.slug} />
+          </p>
+
+          <LikeCounter slug={post.slug} />
+        </div>
+
+        <div className="prose mt-4 w-full max-w-none text-white">{children}</div>
+      </article>
+    </main>
+  );
+};
 
 const BlogPage: NextPage<{ post: Post }> = ({ post }) => {
   if (!post) return null;

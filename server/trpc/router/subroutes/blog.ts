@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { t } from '../trpc';
+import { t } from 'server/trpc';
 
 export const blogRouter = t.router({
   addView: t.procedure

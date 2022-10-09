@@ -1,6 +1,7 @@
+import { t } from '..';
+
 import { blogRouter } from './subroutes/blog';
 import { guestbookRouter } from './subroutes/guestbook';
-import { t } from './trpc';
 
 export const appRouter = t.router({
   blog: blogRouter,

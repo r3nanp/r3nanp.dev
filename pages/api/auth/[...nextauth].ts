@@ -14,7 +14,7 @@ const providers: Provider[] = [
 
 export const options: NextAuthOptions = {
   providers,
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
 };
 
