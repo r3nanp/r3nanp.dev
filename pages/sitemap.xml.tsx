@@ -1,16 +1,11 @@
 import { GetServerSideProps } from 'next';
-import { getServerSideSitemap } from 'next-sitemap';
+import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
 
 import { DOMAIN_URL } from 'constants/variables';
 import { sanityClient } from 'lib/sanity-server';
 
-type SanityResponse = {
-  loc: string
-  lastmode: string
-}
-
 export const getServerSideProps: GetServerSideProps = async context => {
-  const slugs = await sanityClient.fetch<SanityResponse[]>(`
+  const slugs = await sanityClient.fetch<ISitemapField[]>(`
     *[_type == "post"]{
       'loc': slug.current, 'lastmod': _updatedAt
     }
