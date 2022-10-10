@@ -59,36 +59,19 @@ export default async function handler(req: NextApiRequest) {
     (
       <body
         style={{
-          color: '#FFF',
           backgroundImage:
             'radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.2) 2%, transparent 0%), radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.2) 2%, transparent 0%)',
           backgroundSize: '100px 100px',
-          height: '100vh',
-          background: '#424874',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
         }}
+        tw="text-white h-screen flex justify-center items-center bg-[#424874]"
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            width: '1200px',
-            height: '630px',
-            padding: '80px',
-          }}
-        >
+        <div tw="flex flex-col items-start justify-between w-[1200px] h-[630px] p-[80px]">
           {top ? (
             <p
               style={{
                 fontFamily: 'JetBrains Mono',
-                fontSize: '28px',
-                marginBottom: '25px',
-                color: '#c4c4c4',
               }}
+              tw="mb-[25px] text-[28px] text-[#c4c4c4]"
             >
               {top}
             </p>
@@ -96,20 +79,12 @@ export default async function handler(req: NextApiRequest) {
 
           <h1 style={title!.length < 60 ? lg : md}>{title}</h1>
 
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
+          <div tw="w-full flex items-center justify-between">
             <p
               style={{
                 fontFamily: 'JetBrains Mono',
-                fontSize: '28px',
-                color: '#c4c4c4',
               }}
+              tw="text-[28px] text-[#c4c4c4]"
             >
               r3nanp.dev
             </p>
@@ -117,9 +92,7 @@ export default async function handler(req: NextApiRequest) {
               alt="r3nanp"
               height={70}
               src={`${DOMAIN_URL}/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fr3nanp&w=828&q=75`}
-              style={{
-                borderRadius: '100px',
-              }}
+              tw="rounded-[100px]"
               width={70}
             />
           </div>
