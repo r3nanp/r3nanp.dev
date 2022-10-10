@@ -41,7 +41,7 @@ npm install
 Create your enviroment variables based on the examples of ```.env.example```
 
 ```sh
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET`
