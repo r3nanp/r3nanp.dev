@@ -157,7 +157,7 @@ const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children })
 
       <article className="relative mx-auto mb-16 flex w-full max-w-2xl flex-col items-start justify-center">
         <h1 className="mb-4 text-3xl font-bold tracking-tight text-black dark:text-white md:text-5xl">{post?.title}</h1>
-        <div className="mt-2 flex w-full flex-col items-start justify-between md:flex-row md:items-center">
+        <div className="mt-2 flex w-full flex-col items-start justify-between space-y-4 md:flex-row md:items-center">
           <Image
             alt="Renan Pereira"
             className="rounded-full"
@@ -180,7 +180,13 @@ const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children })
           <LikeCounter slug={post.slug} />
         </div>
 
-        <div className="prose mt-4 w-full max-w-none text-white">{children}</div>
+        <div className="prose my-4 w-full max-w-none text-white">{children}</div>
+
+        <div className="text-sm text-gray-300">
+          <a href="https://github.com/r3nanp/r3nanp.dev/issues" rel="noopener noreferrer" target="_blank">
+            {'Suggest Change'}
+          </a>
+        </div>
       </article>
     </main>
   );
