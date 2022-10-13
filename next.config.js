@@ -15,7 +15,7 @@ const nextConfig = {
     ignoreDuringBuilds: !!process.env.CI,
   },
   images: {
-    domains: ['avatars.githubusercontent.com'],
+    domains: ['cdn.sanity.io', 'avatars.githubusercontent.com'],
   },
 };
 
