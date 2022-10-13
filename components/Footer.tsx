@@ -6,12 +6,12 @@ const LINKS = [
     text: 'Home',
   },
   {
-    href: '/about',
-    text: 'About',
-  },
-  {
     href: '/blog',
     text: 'Blog',
+  },
+  {
+    href: '/guestbook',
+    text: 'Guestbook',
   },
 ];
 
