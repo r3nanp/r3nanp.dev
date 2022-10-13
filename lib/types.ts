@@ -7,7 +7,9 @@ export type Post = {
   title: string;
   date: string;
   description: string;
-  coverImage: string;
+  coverImage: {
+    alt: string
+  };
   readingTime: string;
   wordCount: number;
 };

@@ -15,7 +15,7 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
       posts,
       preview,
     },
-    revalidate: 60 * 60 * 24,
+    revalidate: 60 * 60 * 24, // 1 day
   };
 };
 
@@ -36,7 +36,7 @@ const Blog: NextPage<{ posts: Post[] }> = ({ posts }) => {
           <h1 className="mb-4 text-3xl font-bold tracking-tight text-white">Blog</h1>
           <p className="mb-4 text-gray-400">
             {`I've been creating stuff online since 2018
-                  In total, I've written  articles on my blog.
+                  In total, I've written ${posts.length} articles on my blog.
                   Use the search below to filter by title.`}
           </p>
           <div className="relative mb-4 w-full">
