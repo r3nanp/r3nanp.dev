@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { DOMAIN_URL } from 'constants/variables';
+import { DOMAIN_URL, PINNED_REPO_API } from 'constants/variables';
 
 type Repository = {
   fork: boolean;
@@ -31,7 +31,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const starCount = mine?.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 
-  const pinnedRepos: PinnedRepo[] = await (await fetch('https://gh-pinned-repos.egoist.sh/?username=r3nanp')).json();
+  const pinnedRepoURL = new URL(PINNED_REPO_API);
+  pinnedRepoURL.searchParams.set('username', 'r3nanp');
+
+  const pinnedRepos = await (await fetch(pinnedRepoURL.toString())).json() as PinnedRepo[];
 
   if (!pinnedRepos) {
     return {
