@@ -1,4 +1,5 @@
 import { HandThumbUpIcon } from '@heroicons/react/24/outline';
+import type { Blog } from '@prisma/client';
 import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
@@ -74,7 +75,14 @@ const ViewCounter = ({ slug }: { slug: string }) => {
         slug: input.slug,
       });
 
-      context.blog.getView.setData(optimisticUpdate);
+      context.blog.getView.setData(
+        {
+          slug: optimisticUpdate?.slug ?? '',
+        },
+        {
+          ...optimisticUpdate ?? {} as Blog,
+        },
+      );
     },
     onSettled: () => {
       context.blog.getView.invalidate();
@@ -106,7 +114,11 @@ const LikeCounter = ({ slug }: { slug: string }) => {
         slug: input.slug,
       });
 
-      context.blog.getLike.setData(optimisticUpdate);
+      context.blog.getLike.setData({
+        slug: optimisticUpdate?.slug ?? '',
+      }, {
+        ...optimisticUpdate ?? {} as Blog,
+      });
     },
     onSettled: () => {
       context.blog.getLike.invalidate();
@@ -137,7 +149,9 @@ const LikeCounter = ({ slug }: { slug: string }) => {
 const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children }) => {
   const formattedDate = format(parseISO(post.date), 'MMMM dd, yyyy');
 
-  const ogImage = `${DOMAIN_URL}/api/og?title=${post.title}&top=${formattedDate} • ${post.readingTime}`;
+  const ogImageUrl = new URL(`${DOMAIN_URL}/api/og`);
+  ogImageUrl.searchParams.set('title', post.title);
+  ogImageUrl.searchParams.set('top', `${formattedDate} • ${post.readingTime}`);
 
   return (
     <main className="flex flex-col justify-center px-8">
@@ -146,11 +160,11 @@ const BlogLayout: FC<{ post: Post; children: ReactNode }> = ({ post, children })
         openGraph={{
           images: [
             {
-              url: ogImage,
+              url: ogImageUrl.toString(),
               alt: post.title,
             },
           ],
-          url: ` ${DOMAIN_URL}/blog/${post.slug}`,
+          url: `${DOMAIN_URL}/blog/${post.slug}`,
         }}
         title={`${post.title} - Renan Pereira`}
       />
