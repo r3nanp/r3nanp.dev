@@ -1,13 +1,12 @@
 import { visionTool } from '@sanity/vision';
-import { createConfig } from 'sanity';
+import { defineConfig } from 'sanity';
 import { markdownSchema } from 'sanity-plugin-markdown';
 import { deskTool } from 'sanity/desk';
 
-export default createConfig({
-  name: 'default',
-  title: 'r3nanp',
-  projectId: 'mqkn13r4',
-  dataset: 'production',
+export default defineConfig({
+  title: 'r3nanp - blog',
+  projectId: import.meta.env.SANITY_STUDIO_API_PROJECT_ID,
+  dataset: import.meta.env.SANITY_STUDIO_API_DATASET,
   plugins: [deskTool(), visionTool(), markdownSchema()],
   schema: {
     types: [
@@ -60,5 +59,12 @@ export default createConfig({
         ],
       },
     ],
+  },
+  tools: prev => {
+    if (import.meta.env.DEV) {
+      return prev;
+    }
+
+    return prev.filter(tool => tool.name !== 'vision');
   },
 });
