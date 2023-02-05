@@ -1,10 +1,13 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly SANITY_STUDIO_PROJECT_ID: string;
+  readonly SANITY_STUDIO_DATASET: string;
+  readonly SANITY_STUDIO_PREVIEW_URL: string;
+  readonly SANITY_STUDIO_REVALIDATE_SECRET: string;
+}
+
 // eslint-disable-next-line no-unused-vars
-declare namespace NodeJS {
-  export interface ProcessEnv {
-    GITHUB_CLIENT_ID?: string
-    GITHUB_CLIENT_SECRET?: string
-    NEXT_PUBLIC_SANITY_DATASET?: string
-    NEXT_PUBLIC_SANITY_PROJECT_ID?: string
-    DATABASE_URL?: string
-  }
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
 }
