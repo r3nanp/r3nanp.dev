@@ -31,15 +31,18 @@ const Guests = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const context = trpc.useContext();
   const { data: messages } = trpc.guestbook.getAll.useQuery();
+
+  const context = trpc.useContext();
   const { mutate } = trpc.guestbook.postMessage.useMutation({
     onMutate: () => {
       context.guestbook.getAll.cancel();
 
       const optimisticUpdate = context.guestbook.getAll.getData();
 
-      context.guestbook.getAll.setData(optimisticUpdate);
+      if (optimisticUpdate) {
+        context.guestbook.getAll.setData(optimisticUpdate);
+      }
     },
     onSettled: () => {
       context.guestbook.getAll.invalidate();
